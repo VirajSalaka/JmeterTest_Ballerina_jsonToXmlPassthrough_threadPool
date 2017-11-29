@@ -10,6 +10,7 @@ for dir in $HOME/apache-jmeter*; do
 done
 export JMETER_HOME="${jmeter_dir}"
 export PATH=$JMETER_HOME/bin:$PATH
+./$HOME/payloads/generate-payloads.sh
 
 concurrent_users=(500)
 backend_sleep_time=(10)
@@ -64,7 +65,7 @@ do
             echo "# Running JMeter. Concurrent Users: $u Duration: $test_duration JVM Args: $JVM_ARGS"
             jmeter -n -t apim-test.jmx -R $jmeter1_host -X \
                 -Gusers=$u -Gduration=$test_duration -Ghost=$ballerina_host -Gpath=$ballerina_path \
-                -Gpayload=$HOME/1024B.json -Gresponse_size=1024B  \
+                -Gpayload=$HOME/payloads/1024B.json -Gresponse_size=1024B  \
                 -Gprotocol=http -l ${report_location}/results.jtl
 			
             write_server_metrics jmeter
